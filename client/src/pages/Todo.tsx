@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Tododash from "../components/Tododash/Tododash";
+import TodoList from "../components/TodoList/TodoList";
 import { addList } from "../services/servicesList";
 
 const Todo = () => {
@@ -43,7 +43,7 @@ const Todo = () => {
           onKeyDown={handleInputEnter}
         />
       </div>
-      <Tododash newList={newList} />
+      <TodoList newList={newList} />
     </>
   );
 }

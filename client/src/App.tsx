@@ -1,15 +1,15 @@
 
 import './App.css'
-import Todo from './pages/Todo'
+import { BrowserRouter as Router } from "react-router-dom";
+import Root from './Root';
 
 function App() {
 
   return (
     <>
-      <div>
-        <Todo />
-        <></>
-      </div>
+      <Router>
+        <Root />
+      </Router>
     </>
   )
 }
