@@ -3,6 +3,7 @@ import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEf
 import { addTodo, updateTodo, deleteToDo, getTodos } from '../../services/sercicesTodo';
 import { useParams } from 'react-router-dom';
 import Input from '../input';
+import './TodoDash.css'
 
 interface Todo {
   completed: boolean;
@@ -92,7 +93,7 @@ const TodoDash = () => {
     }
   };
   return (
-    <>
+    <div className='mainBody'>
       <div className='selector'>
         <select className='select select-bordered w-full max-w-xs' value={selectedFilter}
           onChange={(event) => setSelectedFilter(event.target.value)}
@@ -162,7 +163,7 @@ const TodoDash = () => {
             </div>
           </div>
         ))}
-    </>
+    </div>
   )
 }
 export default TodoDash;

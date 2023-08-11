@@ -4,24 +4,6 @@
  padding: 10px;
  margin: 5px;
 }
-.inputdiv {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-
-}
-.btn {
-  margin-top: 3%;
-}
-.todo {
-  display: flex;
-  justify-content: space-between;
-  border: 0.2px solid rgba(0, 0, 0, 0.115);
-  background-color: rgba(255, 255, 255, 0.331);
-  padding: 1px 4px 0px 4px;
-  margin-top: 3px;
-
-}
 .title {
   display: flex;
   justify-content: space-between;
@@ -30,14 +12,4 @@
 }
 .btnDel {
   border-radius: 5px;
-}
-.selector {
-  display: flex;
-  justify-content: start;
-  margin: 10px;
-}
-@media screen and (max-width: 800px) {
-  .inputdiv {
-    flex-direction: column;
-  }
 }
