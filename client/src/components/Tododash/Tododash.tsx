@@ -181,7 +181,7 @@ const TodoDash = () => {
                 <div className='titleTodo'>{todo.title}</div>
                 <div className='textTodo'> {todo.description}</div>
                 <div className='deadline'>
-                  {todo.deadline && moment(todo.deadline).endOf('day').fromNow()}
+                  {todo.deadline && moment(todo.deadline).add(1, 'days').calendar()}
                 </div>
                 <div>
                   <input

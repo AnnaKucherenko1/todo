@@ -28,12 +28,13 @@ const TodoList = ({ newList }: any) => {
       console.error('Error deleting todo:', error);
     }
   };
-  const clickedList = (listId: string) => {
-    const selectedList = lists.find((list) => list.id === listId);
+  const handleDeleteClick = (event: React.MouseEvent, listId: string) => {
+    event.stopPropagation();
+    handleDelete(listId);
+  };
 
-    if (selectedList) {
-      navigate(`list/${listId}`);
-    }
+  const clickedList = (listId: string) => {
+    navigate(`list/${listId}`);
   }
   return (
     <>
@@ -46,7 +47,7 @@ const TodoList = ({ newList }: any) => {
               List Title: {list.title}
               <button
                 className='btnDel'
-                onClick={() => handleDelete(list.id as string)}
+                onClick={(event) => handleDeleteClick(event, list.id as string)}
               >
                 <MdDeleteForever />
               </button>
