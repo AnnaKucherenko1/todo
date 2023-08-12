@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteList, getList } from '../../services/servicesList';
+import { MdDeleteForever } from 'react-icons/md';
 
 import './TodoList.css';
 interface Task {
@@ -39,19 +40,22 @@ const TodoList = ({ newList }: any) => {
   }
   return (
     <>
-      {lists.map((list, index) => (
-        <div className='mainBody' key={index} onClick={() => clickedList(list.id)}>
-          <div className='title'>
-            List Title: {list.title}
-            <button
-              className='btnDel btn-error'
-              onClick={() => handleDelete(list.id)}
-            >
-              delete
-            </button>
+      {lists.length === 0 ? (
+        <p>Add your first Todo List here.</p>
+      ) : (
+        lists.map((list, index) => (
+          <div className='mainBody' key={index} onClick={() => clickedList(list.id)}>
+            <div className='title'>
+              List Title: {list.title}
+              <button
+                className='btnDel btn-error'
+                onClick={() => handleDelete(list.id)}
+              >
+                <MdDeleteForever />
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        )))}
     </>
   );
 };

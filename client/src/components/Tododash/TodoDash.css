@@ -9,9 +9,6 @@
   justify-content: space-around;
 
 }
-.btn {
-  margin-top: 3%;
-}
 .todo {
   display: flex;
   justify-content: space-between;
@@ -21,8 +18,24 @@
   margin-top: 3px;
 
 }
+.formDiv {
+margin-bottom: 10px;
+
+}
+.textTodo {
+  width: 25%;
+}
+.titleTodo {
+  width: 10%;
+}
+.btn {
+  margin-top: 35px;
+}
 @media screen and (max-width: 800px) {
   .inputdiv {
     flex-direction: column;
+  }
+  .btn {
+    margin-top: 10px;
   }
 }
