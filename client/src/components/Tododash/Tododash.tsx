@@ -1,26 +1,29 @@
-import moment from 'moment';
-import { Key, useEffect, useState, } from 'react';
-import { addTodo, updateTodo, deleteToDo, getTodos } from '../../services/sercicesTodo';
+import { useEffect, useState } from 'react';
+import {
+  addTodo,
+  getTodos,
+} from '../../services/sercicesTodo';
 import { useParams } from 'react-router-dom';
-import { MdDeleteForever } from 'react-icons/md';
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form } from 'formik';
 import todoSchema from '../../validator';
 import { FormValues, Todo, Values } from '../../interfaces';
-import './TodoDash.css'
+import './TodoDash.css';
+import Items from '../Items/Items';
 
 const TodoDash = () => {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [todos, setTodos] = useState<Todo[]>([]);
-  const { listId } = useParams()
+  const [searchTodo, setSearchTodo] = useState('');
+  const { listId } = useParams();
 
   useEffect(() => {
-    todosFetch(listId as string)
-  }, [listId])
+    todosFetch(listId as string);
+  }, [listId]);
 
   const todosFetch = async (listId: string) => {
     let response = await getTodos(listId);
-    setTodos(response)
-  }
+    setTodos(response);
+  };
 
   const handleSubmit = async (
     listId: string,
@@ -48,46 +51,32 @@ const TodoDash = () => {
     }
   };
 
-  const handleToggle = async (listId: string, todoId: string) => {
-    try {
-      const todoToUpdate = todos.find((todo: Todo) => todo.id === todoId);
-      if (todoToUpdate) {
-        const updatedCompleted = !todoToUpdate.completed;
-        await updateTodo(listId, todoId, { completed: updatedCompleted });
-        const updatedTodos = todos.map((todo: Todo) =>
-          todo.id === todoId ? { ...todo, completed: updatedCompleted } : todo
-        );
-        setTodos(updatedTodos);
-      }
-    } catch (error) {
-      console.error('Error updating todo:', error);
-    }
-  };
 
-  const handleDeleteTodo = async (listId: string, todoId: string) => {
-    try {
-      await deleteToDo(listId, todoId);
-      const updatedTodos = todos.filter((todo: Todo) => todo.id !== todoId);
-      setTodos(updatedTodos);
-    } catch (error) {
-      console.error('Error deleting todo:', error);
-    }
-  };
   return (
     <div className='mainBody'>
       <div className='selector'>
-        <select className='select select-bordered w-full max-w-xs' value={selectedFilter}
+        <select
+          className='select select-bordered w-full max-w-xs'
+          value={selectedFilter}
           onChange={(event) => setSelectedFilter(event.target.value)}
         >
-
           <option>All Todos</option>
           <option>Active</option>
           <option>Done</option>
         </select>
+        <div className='form-control'>
+          <input
+            type='text'
+            placeholder='Search ToDo'
+            value={searchTodo}
+            onChange={(e) => setSearchTodo(e.target.value)}
+            className='input input-bordered w-24 md:w-auto'
+          />
+        </div>
       </div>
       <div className='formDiv'>
         <Formik
-          initialValues={{ title: "", description: "", deadline: "" }}
+          initialValues={{ title: '', description: '', deadline: '' }}
           validate={(values: FormValues) => {
             const errors: Partial<FormValues> = {};
             if (!values.title) {
@@ -107,7 +96,7 @@ const TodoDash = () => {
               .then(() => {
                 handleSubmit(listId as string, values, resetForm);
               })
-              .catch(validationError => {
+              .catch((validationError) => {
                 console.error('Validation error:', validationError);
               });
           }}
@@ -130,7 +119,9 @@ const TodoDash = () => {
                 </div>
                 <div className='form-control w-full max-w-xs'>
                   <label className='label'>
-                    <span className='label-text'>Add ToDo description here</span>
+                    <span className='label-text'>
+                      Add ToDo description here
+                    </span>
                   </label>
                   <Field
                     type='text'
@@ -162,44 +153,8 @@ const TodoDash = () => {
           )}
         </Formik>
       </div>
-      {
-        todos.length === 0 ? (
-          <p>Add your first todo to this list.</p>
-        ) : (
-          todos?.filter((todo: { completed: boolean; }) => {
-            if (selectedFilter === 'All') {
-              return true;
-            } else if (selectedFilter === 'Active') {
-              return !todo.completed;
-            } else if (selectedFilter === 'Done') {
-              return todo.completed;
-            }
-            return true;
-          })
-            .map((todo: Todo, todoIndex: Key) => (
-              <div className='todo' key={todoIndex}>
-                <div className='titleTodo'>{todo.title}</div>
-                <div className='textTodo'> {todo.description}</div>
-                <div className='deadline'>
-                  {todo.deadline && moment(todo.deadline).add(1, 'days').calendar()}
-                </div>
-                <div>
-                  <input
-                    type='checkbox'
-                    checked={todo.completed}
-                    className='checkbox'
-                    onChange={() => handleToggle(listId as string, todo.id as string)}
-                  />
-                  <button onClick={() => handleDeleteTodo(listId as string, todo.id as string)}>
-                    <MdDeleteForever style={{ fontSize: '24px', marginLeft: '10px' }} />
-                  </button>
-                </div>
-              </div>
-            ))
-        )
-      }
-
-    </div >
-  )
-}
+      <Items todos={todos} setTodos={setTodos} selectedFilter={selectedFilter} searchTodo={searchTodo} />
+    </div>
+  );
+};
 export default TodoDash;
