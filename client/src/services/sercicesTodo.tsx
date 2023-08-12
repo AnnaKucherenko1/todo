@@ -40,7 +40,7 @@ export const getTodos = async (id: string) => {
 export const updateTodo = async (
   id: string,
   idTodo: string,
-  updatedFields: any
+  updatedFields: { completed: boolean; }
 ) => {
 
   try {

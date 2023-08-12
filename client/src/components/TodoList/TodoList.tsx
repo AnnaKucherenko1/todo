@@ -5,8 +5,11 @@ import { MdDeleteForever } from 'react-icons/md';
 import { List } from '../../interfaces';
 import './TodoList.css';
 
+type TodoListProps = {
+  newList: string
+};
 
-const TodoList = ({ newList }: any) => {
+const TodoList = ({ newList }: TodoListProps) => {
   const [lists, setLists] = useState<List[]>([]);
   const navigate = useNavigate();
 
