@@ -5,16 +5,15 @@ import { getList } from "../../services/servicesList";
 
 const Navbar = () => {
   const [lists, setLists] = useState<Task[]>([]);
-
-
   useEffect(() => {
     fetchData();
   }, []);
+
   const fetchData = async () => {
     const response = await getList();
     setLists(response);
-
   };
+
   return (
     <div className="navbar bg-base-300">
       <div className="flex-none">

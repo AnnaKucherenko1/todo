@@ -1,12 +1,11 @@
 .selector {
   display: flex;
   justify-content: start;
-  margin: 10px;
 }
 .inputdiv {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
 
 }
 .todo {
@@ -20,7 +19,6 @@
 }
 .formDiv {
 margin-bottom: 10px;
-
 }
 .textTodo {
   width: 25%;

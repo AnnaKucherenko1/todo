@@ -9,7 +9,6 @@ const Todo = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setInputValue(newValue);
-    // onInputSubmit(newValue);
     console.log(inputValue, 'hhh')
   };
 
