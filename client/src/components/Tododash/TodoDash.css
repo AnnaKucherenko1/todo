@@ -1,17 +1,13 @@
-.mainBody {
- border-radius: 10px;
- background-color:rgba(255, 228, 196, 0.705);
- padding: 10px;
- margin: 5px;
+.selector {
+  display: flex;
+  justify-content: start;
+  margin: 10px;
 }
 .inputdiv {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 
-}
-.btn {
-  margin-top: 3%;
 }
 .todo {
   display: flex;
@@ -22,22 +18,24 @@
   margin-top: 3px;
 
 }
-.title {
-  display: flex;
-  justify-content: space-between;
-  font-size: 25px;
-  margin-top: 0px;
+.formDiv {
+margin-bottom: 10px;
+
 }
-.btnDel {
-  border-radius: 5px;
+.textTodo {
+  width: 25%;
 }
-.selector {
-  display: flex;
-  justify-content: start;
-  margin: 10px;
+.titleTodo {
+  width: 10%;
+}
+.btn {
+  margin-top: 35px;
 }
 @media screen and (max-width: 800px) {
   .inputdiv {
     flex-direction: column;
+  }
+  .btn {
+    margin-top: 10px;
   }
 }

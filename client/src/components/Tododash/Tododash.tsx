@@ -1,18 +1,11 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import {
-  addTodo,
-  deleteToDo,
-  getTodos,
-  updateTodo,
-} from '../../services/sercicesTodo';
-import { deleteList, getList } from '../../services/servicesList';
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState, } from 'react';
+import { addTodo, updateTodo, deleteToDo, getTodos } from '../../services/sercicesTodo';
+import { useParams } from 'react-router-dom';
 import Input from '../input';
-import './Tododash.css';
-interface Task {
-  title: string;
-  id: string;
-}
+import { MdDeleteForever } from 'react-icons/md';
+import './TodoDash.css'
+
 interface Todo {
   completed: boolean;
   deadline: string;
@@ -20,34 +13,22 @@ interface Todo {
   id: string;
   text: string;
 }
-interface TodosMap {
-  [key: string]: Todo[];
-}
-const Tododash = ({ newList }: any) => {
+
+const TodoDash = () => {
+  const [formSubmited, setFormSubmited] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('All');
   const [inputValue, setInputValue] = useState('');
   const [deadlineValue, setDeadlineValue] = useState('');
-  const [descriptValue, setDescriptValue] = useState('');
-  const [formSubmited, setFormSubmited] = useState(false);
-  const [lists, setLists] = useState<Task[]>([]);
-  const [todosMap, setTodosMap] = useState<TodosMap>({});
-  const [selectedFilter, setSelectedFilter] = useState('All');
-
+  const [descriptValue, setDescriptValue] = useState('')
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const { listId } = useParams()
   useEffect(() => {
-    fetchData();
-  }, [newList]);
-  const fetchData = async () => {
-    const response = await getList();
-    setLists(response);
-
-    const todosObject: { [key: string]: Todo[] } = {};
-    for (const list of response) {
-      const todos = await getTodos(list.id);
-      todosObject[list.id] = todos;
-    }
-
-    setTodosMap(todosObject);
-  };
-
+    todosFetch(listId as string)
+  }, [listId])
+  const todosFetch = async (listId: string) => {
+    let response = await getTodos(listId);
+    setTodos(response)
+  }
   const handleInputValueChange = (value: string) => {
     setInputValue(value);
   };
@@ -72,9 +53,9 @@ const Tododash = ({ newList }: any) => {
     const response = await addTodo(listId, newToDo);
     if (response) {
       //@ts-ignore
-      setTodosMap((prevTodosMap) => {
-        const updatedTodos = [...(prevTodosMap[listId] || []), response];
-        return { ...prevTodosMap, [listId]: updatedTodos };
+      setTodos((prevTodosMap) => {
+        const updatedTodos = [...prevTodosMap, response];
+        return updatedTodos;
       });
       setFormSubmited(true);
     }
@@ -83,28 +64,19 @@ const Tododash = ({ newList }: any) => {
     setDeadlineValue('');
     setDescriptValue('');
   };
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteList(id);
-      const updatedLists = lists.filter((list) => list.id !== id);
-      setLists(updatedLists);
-    } catch (error) {
-      console.error('Error deleting todo:', error);
-    }
-  };
   const handleToggle = async (listId: string, todoId: string) => {
     try {
-      const todoToUpdate = todosMap[listId].find((todo) => todo.id === todoId);
+      const todoToUpdate = todos.find((todo: Todo) => todo.id === todoId);
 
       if (todoToUpdate) {
         const updatedCompleted = !todoToUpdate.completed;
         await updateTodo(listId, todoId, { completed: updatedCompleted });
-        setTodosMap((prevTodosMap) => {
-          const updatedTodos = prevTodosMap[listId].map((todo) =>
-            todo.id === todoId ? { ...todo, completed: updatedCompleted } : todo
-          );
-          return { ...prevTodosMap, [listId]: updatedTodos };
-        });
+
+        const updatedTodos = todos.map((todo: Todo) =>
+          todo.id === todoId ? { ...todo, completed: updatedCompleted } : todo
+        );
+
+        setTodos(updatedTodos);
       }
     } catch (error) {
       console.error('Error updating todo:', error);
@@ -113,103 +85,92 @@ const Tododash = ({ newList }: any) => {
   const handleDeleteTodo = async (listId: string, todoId: string) => {
     try {
       await deleteToDo(listId, todoId);
-      setTodosMap((prevTodosMap) => {
-        const updatedTodos = prevTodosMap[listId].filter(
-          (todo) => todo.id !== todoId
-        );
-        return { ...prevTodosMap, [listId]: updatedTodos };
-      });
+
+      const updatedTodos = todos.filter((todo: Todo) => todo.id !== todoId);
+      setTodos(updatedTodos);
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
   };
-
   return (
-    <>
+    <div className='mainBody'>
       <div className='selector'>
         <select className='select select-bordered w-full max-w-xs' value={selectedFilter}
           onChange={(event) => setSelectedFilter(event.target.value)}
         >
 
-          <option>All</option>
+          <option>All Todos</option>
           <option>Active</option>
           <option>Done</option>
         </select>
       </div>
-      {lists.map((list, index) => (
-        <div className='mainBody' key={index}>
-          <div className='title'>
-            List Title: {list.title}
-            <button
-              className='btnDel btn-error'
-              onClick={() => handleDelete(list.id)}
-            >
-              delete
+      <div className='formDiv'>
+        <form onSubmit={(event) => handleSubmit(listId as string, event)}>
+          <div className='inputdiv'>
+            <Input
+              label={'Add ToDo Title here'}
+              type={'text'}
+              onInputSubmit={handleInputValueChange}
+              formSubmited={formSubmited}
+              setFormSubmited={setFormSubmited}
+            />
+            <Input
+              label={'Add ToDo description here'}
+              type={'text'}
+              onInputSubmit={handleDescrValueChange}
+              formSubmited={formSubmited}
+              setFormSubmited={setFormSubmited}
+            />
+            <Input
+              label={'Add deadline'}
+              type={'datetime-local'}
+              onInputSubmit={handleDeadlineValueChange}
+              formSubmited={formSubmited}
+              setFormSubmited={setFormSubmited}
+            />
+            <button type='submit' className='btn btn-accent'>
+              Submit
             </button>
           </div>
-          <form onSubmit={(event) => handleSubmit(list.id, event)}>
-            <div className='inputdiv'>
-              <Input
-                label={'Add ToDo Title here'}
-                type={'text'}
-                onInputSubmit={handleInputValueChange}
-                formSubmited={formSubmited}
-                setFormSubmited={setFormSubmited}
-              />
-              <Input
-                label={'Add ToDo description here'}
-                type={'text'}
-                onInputSubmit={handleDescrValueChange}
-                formSubmited={formSubmited}
-                setFormSubmited={setFormSubmited}
-              />
-              <Input
-                label={'Add deadline'}
-                type={'datetime-local'}
-                onInputSubmit={handleDeadlineValueChange}
-                formSubmited={formSubmited}
-                setFormSubmited={setFormSubmited}
-              />
-              <button type='submit' className='btn btn-accent mt-4'>
-                Submit
-              </button>
-            </div>
-          </form>
-
-          {todosMap[list.id]
-            ?.filter(todo => {
-              if (selectedFilter === 'All') {
-                return true;
-              } else if (selectedFilter === 'Active') {
-                return !todo.completed;
-              } else if (selectedFilter === 'Done') {
-                return todo.completed;
-              }
-              return true;
-            })
-            .map((todo, todoIndex) => (
-              <div className='todo' key={todoIndex}>
-                {todo.todo}
-                <div> {todo.text}</div>
-                <div className='deadline'>
-                  {todo.deadline && moment(todo.deadline).endOf('day').fromNow()}
-                </div>
-                <div>
-                  <input
-                    type='checkbox'
-                    checked={todo.completed}
-                    className='checkbox'
-                    onChange={() => handleToggle(list.id, todo.id)}
-                  />
-                  <button onClick={() => handleDeleteTodo(list.id, todo.id)}>
-                    delete
-                  </button>
-                </div>
+        </form>
+      </div>
+      {todos.length === 0 ? (
+        <p>Add your first todo to this list.</p>
+      ) : (
+        todos?.filter((todo: { completed: any; }) => {
+          if (selectedFilter === 'All') {
+            return true;
+          } else if (selectedFilter === 'Active') {
+            return !todo.completed;
+          } else if (selectedFilter === 'Done') {
+            return todo.completed;
+          }
+          return true;
+        })
+          .map((todo: { todo: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; text: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; deadline: moment.MomentInput; completed: boolean | undefined; id: string; }, todoIndex: Key | null | undefined) => (
+            <div className='todo' key={todoIndex}>
+              <div className='titleTodo'>{todo.todo}</div>
+              <div className='textTodo'> {todo.text}</div>
+              <div className='deadline'>
+                {todo.deadline && moment(todo.deadline).endOf('day').fromNow()}
               </div>
-            ))}
-        </div>
-      ))}
-    </>
-  );
-};
-export default Tododash;
+              <div>
+                <input
+                  type='checkbox'
+                  checked={todo.completed}
+                  className='checkbox'
+                  onChange={() => handleToggle(listId as string, todo.id)}
+                />
+                <button onClick={() => handleDeleteTodo(listId as string, todo.id)}>
+
+                  <MdDeleteForever style={{ fontSize: '24px', marginLeft: '10px' }} />
+                </button>
+              </div>
+            </div>
+          ))
+      )}
+
+    </div>
+  )
+}
+export default TodoDash;
