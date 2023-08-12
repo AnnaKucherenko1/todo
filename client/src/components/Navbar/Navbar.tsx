@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Task from "../../interfaces";
+import { Task } from "../../interfaces";
 import { getList } from "../../services/servicesList";
 
 const Navbar = () => {

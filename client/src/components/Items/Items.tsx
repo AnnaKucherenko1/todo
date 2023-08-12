@@ -1,6 +1,7 @@
 import { Todo } from "../../interfaces";
 import moment from 'moment';
 import { Key } from 'react';
+import './Items.css'
 import {
   updateTodo,
   deleteToDo,
@@ -8,7 +9,14 @@ import {
 import { MdDeleteForever } from 'react-icons/md';
 import { useParams } from "react-router";
 
-const Items = ({ todos, setTodos, selectedFilter, searchTodo }: any) => {
+type ItemsProps = {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  selectedFilter: string;
+  searchTodo: string;
+};
+
+const Items = ({ todos, setTodos, selectedFilter, searchTodo }: ItemsProps) => {
   const { listId } = useParams();
   const handleToggle = async (listId: string, todoId: string) => {
     try {
@@ -61,7 +69,7 @@ const Items = ({ todos, setTodos, selectedFilter, searchTodo }: any) => {
               <div className='textTodo'> {todo.description}</div>
               <div className='deadline'>
                 {todo.deadline &&
-                  moment(todo.deadline).add(1, 'days').calendar()}
+                  moment(todo.deadline).calendar()}
               </div>
               <div>
                 <input

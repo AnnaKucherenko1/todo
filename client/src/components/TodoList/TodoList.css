@@ -16,6 +16,7 @@
   justify-content: space-between;
   font-size: 25px;
   margin-top: 0px;
+  cursor: pointer;
 }
 .btnDel {
   border-radius: 5px;
