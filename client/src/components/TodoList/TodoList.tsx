@@ -2,29 +2,23 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteList, getList } from '../../services/servicesList';
 import { MdDeleteForever } from 'react-icons/md';
-
+import { List } from '../../interfaces';
 import './TodoList.css';
-interface Task {
-  title: string;
-  id: string;
-}
 
 
 const TodoList = ({ newList }: any) => {
-  const [lists, setLists] = useState<Task[]>([]);
+  const [lists, setLists] = useState<List[]>([]);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     fetchData();
   }, [newList]);
+
   const fetchData = async () => {
     const response = await getList();
     setLists(response);
 
   };
-
-
   const handleDelete = async (id: string) => {
     try {
       await deleteList(id);
@@ -34,9 +28,12 @@ const TodoList = ({ newList }: any) => {
       console.error('Error deleting todo:', error);
     }
   };
-
   const clickedList = (listId: string) => {
-    navigate(`list/${listId}`)
+    const selectedList = lists.find((list) => list.id === listId);
+
+    if (selectedList) {
+      navigate(`list/${listId}`);
+    }
   }
   return (
     <>
@@ -44,12 +41,12 @@ const TodoList = ({ newList }: any) => {
         <p>Add your first Todo List here.</p>
       ) : (
         lists.map((list, index) => (
-          <div className='mainBody' key={index} onClick={() => clickedList(list.id)}>
+          <div className='mainBody' key={index} onClick={() => clickedList(list.id as string)}>
             <div className='title'>
               List Title: {list.title}
               <button
-                className='btnDel btn-error'
-                onClick={() => handleDelete(list.id)}
+                className='btnDel'
+                onClick={() => handleDelete(list.id as string)}
               >
                 <MdDeleteForever />
               </button>

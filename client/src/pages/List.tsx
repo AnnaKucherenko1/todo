@@ -2,14 +2,13 @@ import { useState } from "react";
 import TodoList from "../components/TodoList/TodoList";
 import { addList } from "../services/servicesList";
 
-const Todo = () => {
+const List = () => {
   const [inputValue, setInputValue] = useState('');
-
+  const [newList, setNewList] = useState('')
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setInputValue(newValue);
-    console.log(inputValue, 'hhh')
   };
 
   const handleInputEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -19,13 +18,16 @@ const Todo = () => {
       setInputValue('');
     }
   };
-  const [newList, setNewList] = useState('')
   const handleSubmit = async (value: string) => {
     const newToDo = {
       title: value,
     };
-    const newList = await addList(newToDo)
-    setNewList(newList)
+    try {
+      const newList = await addList(newToDo)
+      setNewList(newList)
+    } catch (error) {
+      console.error('Error adding new list:', error);
+    }
   };
   return (
     <>
@@ -46,4 +48,4 @@ const Todo = () => {
     </>
   );
 }
-export default Todo;
+export default List;
