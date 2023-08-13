@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { addTodo, getTodos } from '../../services/sercicesTodo';
+import { addTodo, getTodos } from '../../services/servicesTodo';
 import { useParams } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import todoSchema from '../../validator';

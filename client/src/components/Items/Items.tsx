@@ -2,7 +2,7 @@ import { Todo } from '../../interfaces';
 import moment from 'moment';
 import { Key } from 'react';
 import './Items.css';
-import { updateTodo, deleteToDo } from '../../services/sercicesTodo';
+import { updateTodo, deleteToDo } from '../../services/servicesTodo';
 import { MdDeleteForever } from 'react-icons/md';
 import { useParams } from 'react-router';
 
