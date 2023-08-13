@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteList, getList } from '../../services/servicesList';
 import { MdDeleteForever } from 'react-icons/md';
-import { List } from '../../interfaces';
 import './TodoList.css';
+import { ListContext } from '../../App';
 
 type TodoListProps = {
   newList: string;
 };
 
 const TodoList = ({ newList }: TodoListProps) => {
-  const [lists, setLists] = useState<List[]>([]);
+  const { setLists, lists } = useContext(ListContext);
   const navigate = useNavigate();
 
   useEffect(() => {

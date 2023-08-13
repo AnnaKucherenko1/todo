@@ -11,25 +11,22 @@ const List = () => {
     setInputValue(newValue);
   };
 
-  const handleInputEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputEnter = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      handleSubmit(inputValue);
-      setInputValue('');
+      try {
+        const newToDo = {
+          title: inputValue,
+        };
+        const newList = await addList(newToDo);
+        setNewList(newList);
+        setInputValue('');
+      } catch (error) {
+        console.error('Error adding new list:', error);
+      }
     }
   };
 
-  const handleSubmit = async (value: string) => {
-    const newToDo = {
-      title: value,
-    };
-    try {
-      const newList = await addList(newToDo);
-      setNewList(newList);
-    } catch (error) {
-      console.error('Error adding new list:', error);
-    }
-  };
 
   return (
     <>

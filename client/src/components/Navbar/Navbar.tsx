@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Task } from '../../interfaces';
-import { getList } from '../../services/servicesList';
+import { ListContext } from '../../App';
 
 const Navbar = () => {
-  const [lists, setLists] = useState<Task[]>([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    const response = await getList();
-    setLists(response);
-  };
+  const { lists } = useContext(ListContext);
 
   return (
     <div className='navbar bg-base-300'>
