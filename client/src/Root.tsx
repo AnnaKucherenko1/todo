@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import TodoDash from "./components/TodoDash/TodoDash";
+import TodoDashboard from "./components/TodoDashboard/TodoDashboard";
 import Todo from "./pages/List";
 const Root = () => {
   return (
@@ -7,7 +7,7 @@ const Root = () => {
       <Route path='/' element={<Todo />} />
       <Route
         path='/list/:listId'
-        element={<TodoDash />}
+        element={<TodoDashboard />}
       />
     </Routes>
   );

@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import todoSchema from '../../validator';
 import { FormValues, Todo, Values } from '../../interfaces';
-import './TodoDash.css';
+import './TodoDashboard.css';
 import Items from '../Items/Items';
 
-const TodoDash = () => {
+const TodoDashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [searchTodo, setSearchTodo] = useState('');
@@ -158,4 +158,4 @@ const TodoDash = () => {
     </div>
   );
 };
-export default TodoDash;
+export default TodoDashboard;
