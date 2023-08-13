@@ -5,4 +5,11 @@
 .rootDiv{
   padding: 4rem; 
 }
+:root {
+  --text-color-light: black;
+}
+
+:root[data-theme='dark'] {
+  --text-color-light: white;
+}
 

@@ -53,7 +53,7 @@ const TodoList = ({ newList }: TodoListProps) => {
             onClick={() => clickedList(list.id as string)}
           >
             <div className='title'>
-              List Title: {list.title}
+              <b>{list.title}</b>
               <button
                 className='btnDel'
                 onClick={(event) => handleDeleteClick(event, list.id as string)}
