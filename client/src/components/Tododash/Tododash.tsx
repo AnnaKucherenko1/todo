@@ -18,7 +18,7 @@ const TodoDash = () => {
   }, [listId]);
 
   const todosFetch = async (listId: string) => {
-    let response = await getTodos(listId);
+    const response = await getTodos(listId);
     setTodos(response);
   };
 
