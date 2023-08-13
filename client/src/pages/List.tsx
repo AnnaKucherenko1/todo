@@ -36,7 +36,7 @@ const List = () => {
         </label>
         <input
           type='text'
-          placeholder='Type name and press enter'
+          placeholder='Type title and press enter'
           className='input input-bordered w-full max-w-xs'
           value={inputValue}
           onChange={handleInputChange}
