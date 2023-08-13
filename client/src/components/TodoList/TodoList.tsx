@@ -6,7 +6,7 @@ import { List } from '../../interfaces';
 import './TodoList.css';
 
 type TodoListProps = {
-  newList: string
+  newList: string;
 };
 
 const TodoList = ({ newList }: TodoListProps) => {
@@ -20,8 +20,8 @@ const TodoList = ({ newList }: TodoListProps) => {
   const fetchData = async () => {
     const response = await getList();
     setLists(response);
-
   };
+
   const handleDelete = async (id: string) => {
     try {
       await deleteList(id);
@@ -31,6 +31,7 @@ const TodoList = ({ newList }: TodoListProps) => {
       console.error('Error deleting todo:', error);
     }
   };
+
   const handleDeleteClick = (event: React.MouseEvent, listId: string) => {
     event.stopPropagation();
     handleDelete(listId);
@@ -38,14 +39,19 @@ const TodoList = ({ newList }: TodoListProps) => {
 
   const clickedList = (listId: string) => {
     navigate(`list/${listId}`);
-  }
+  };
+
   return (
     <>
       {lists.length === 0 ? (
         <p>Add your first Todo List here.</p>
       ) : (
         lists.map((list, index) => (
-          <div className='mainBody' key={index} onClick={() => clickedList(list.id as string)}>
+          <div
+            className='mainBody'
+            key={index}
+            onClick={() => clickedList(list.id as string)}
+          >
             <div className='title'>
               List Title: {list.title}
               <button
@@ -56,7 +62,8 @@ const TodoList = ({ newList }: TodoListProps) => {
               </button>
             </div>
           </div>
-        )))}
+        ))
+      )}
     </>
   );
 };

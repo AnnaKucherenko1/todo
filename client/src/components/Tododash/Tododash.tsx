@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  addTodo,
-  getTodos,
-} from '../../services/sercicesTodo';
+import { addTodo, getTodos } from '../../services/sercicesTodo';
 import { useParams } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import todoSchema from '../../validator';
@@ -50,7 +47,6 @@ const TodoDash = () => {
       console.error('Error submitting todo:', error);
     }
   };
-
 
   return (
     <div className='mainBody'>
@@ -153,7 +149,12 @@ const TodoDash = () => {
           )}
         </Formik>
       </div>
-      <Items todos={todos} setTodos={setTodos} selectedFilter={selectedFilter} searchTodo={searchTodo} />
+      <Items
+        todos={todos}
+        setTodos={setTodos}
+        selectedFilter={selectedFilter}
+        searchTodo={searchTodo}
+      />
     </div>
   );
 };

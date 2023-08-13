@@ -1,13 +1,10 @@
-import { Todo } from "../../interfaces";
+import { Todo } from '../../interfaces';
 import moment from 'moment';
 import { Key } from 'react';
-import './Items.css'
-import {
-  updateTodo,
-  deleteToDo,
-} from '../../services/sercicesTodo';
+import './Items.css';
+import { updateTodo, deleteToDo } from '../../services/sercicesTodo';
 import { MdDeleteForever } from 'react-icons/md';
-import { useParams } from "react-router";
+import { useParams } from 'react-router';
 
 type ItemsProps = {
   todos: Todo[];
@@ -43,6 +40,7 @@ const Items = ({ todos, setTodos, selectedFilter, searchTodo }: ItemsProps) => {
       console.error('Error deleting todo:', error);
     }
   };
+
   return (
     <>
       {todos.length === 0 ? (
@@ -59,17 +57,17 @@ const Items = ({ todos, setTodos, selectedFilter, searchTodo }: ItemsProps) => {
             }
             return true;
           })
-          ?.filter((todo: Todo) =>
-            todo.title.toLowerCase().includes(searchTodo.toLowerCase()) ||
-            todo.description.toLowerCase().includes(searchTodo.toLowerCase())
+          ?.filter(
+            (todo: Todo) =>
+              todo.title.toLowerCase().includes(searchTodo.toLowerCase()) ||
+              todo.description.toLowerCase().includes(searchTodo.toLowerCase())
           )
           .map((todo: Todo, todoIndex: Key) => (
             <div className='todo' key={todoIndex}>
               <div className='titleTodo'>{todo.title}</div>
               <div className='textTodo'> {todo.description}</div>
               <div className='deadline'>
-                {todo.deadline &&
-                  moment(todo.deadline).calendar()}
+                {todo.deadline && moment(todo.deadline).calendar()}
               </div>
               <div>
                 <input
@@ -92,9 +90,8 @@ const Items = ({ todos, setTodos, selectedFilter, searchTodo }: ItemsProps) => {
               </div>
             </div>
           ))
-      )
-      }
+      )}
     </>
-  )
-}
-export default Items
+  );
+};
+export default Items;

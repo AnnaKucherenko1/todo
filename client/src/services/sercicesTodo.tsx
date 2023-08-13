@@ -1,7 +1,6 @@
 import { Todo } from '../interfaces';
 const URL = 'https://64d4b4f6b592423e469488e6.mockapi.io/todo/list';
 export const addTodo = async (id: string, todo: Todo) => {
-
   try {
     const response = await fetch(URL + `/${id}/todo`, {
       method: 'POST',
@@ -12,7 +11,6 @@ export const addTodo = async (id: string, todo: Todo) => {
       throw new Error('Failed to fetch list');
     }
     return response.json();
-
   } catch (error) {
     console.error('Error adding todo:', error);
     throw error;
@@ -20,7 +18,6 @@ export const addTodo = async (id: string, todo: Todo) => {
 };
 
 export const getTodos = async (id: string) => {
-
   try {
     const response = await fetch(URL + `/${id}/todo`, {
       method: 'GET',
@@ -30,7 +27,6 @@ export const getTodos = async (id: string) => {
       throw new Error('Failed to fetch todos');
     }
     return response.json();
-
   } catch (error) {
     console.error('Error to fetch todo:', error);
     throw error;
@@ -40,9 +36,8 @@ export const getTodos = async (id: string) => {
 export const updateTodo = async (
   id: string,
   idTodo: string,
-  updatedFields: { completed: boolean; }
+  updatedFields: { completed: boolean }
 ) => {
-
   try {
     const response = await fetch(URL + `/${id}/todo/${idTodo}`, {
       method: 'PUT',
