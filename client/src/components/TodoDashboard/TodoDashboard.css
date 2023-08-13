@@ -28,4 +28,10 @@ margin-bottom: 10px;
   .btn {
     margin-top: 10px;
   }
+  .selector {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
