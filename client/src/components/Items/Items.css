@@ -6,3 +6,24 @@
   padding: 1px 4px 0px 4px;
   margin-top: 3px;
 }
+@media screen and (max-width: 800px) {
+  .todo {
+    display: flex;
+    flex-direction: column;
+  }
+  .titleTodo {
+    width: auto;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .textTodo {
+    width: auto;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .deadline {
+    width: auto;
+    display: flex;
+    justify-content: flex-start;
+  }
+}
